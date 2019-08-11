@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Predicting Human Dynamics</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		  crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css" media="screen" />
+	<script type="text/javascript" src="assets/js/citation.js"></script>
+</head>
+<body>
+	<br><br>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="page-header">
+					<h1 class="text-center">Predicting 3D Human Dynamics from Video</h1>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row"> <!-- names row-->
+
+			<div class="col-md-3">
+				<h5 class="text-center"><a href="https://jasonyzhang.com/">Jason Y. Zhang</a></h5>
+			</div>
+			<div class="col-md-3">
+				<h5 class="text-center">Panna Felsen</h5>
+			</div>
+			<div class="col-md-3">
+				<h5 class="text-center"><a href="http://people.eecs.berkeley.edu/~kanazawa/">Angjoo Kanazawa</a></h5>
+			</div>
+
+			<div class="col-md-3">
+				<h5 class="text-center"><a href="https://people.eecs.berkeley.edu/~malik/">Jitendra Malik</a></h5>
+			</div>
+
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-12">
+				<h5 class="text-center">University of California, Berkeley</h5>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-12">
+				<h5 class="text-center"><i>In ICCV 2019</i></h5>
+			</div>
+		</div>
+
+		<br>
+		<div class="row">
+			<div class="col-md-4">
+			</div>
+			<div class="col-md-2">
+				<h3 class="text-center"><a href="">[Paper]</a></h3>
+			</div>
+			<div class="col-md-2">
+				<h3 class="text-center"><a href="https://youtu.be/aBKZ7HMF1SM">[Video]</a></h3>
+			</div>
+			<div class="col-md-4">
+			</div>
+		</div>
+		<br>
+	</div>
+
+	<figure class="figure">
+		<video autoplay loop muted playsinline width="100%">
+		  <source src="assets/vid/teaser_vid.mp4" type="video/mp4">
+		</video>
+		<figcaption class="figure-caption">
+			We present Predicting Human Dynamics (PHD), a neural autoregressive model that takes a video
+			sequence of a person as input to predict the future 3D human mesh motion.
+			<span class="bold">Left:</span> Input past video sequence.
+			<span class="bold">Middle:</span> Predicted future mesh sequence.
+			<span class="bold">Right:</span> Predicted mesh from alternate viewpoint.
+		</figcaption>
+	</figure>
+	<br>
+	<h2>Abstract</h2>
+	<p class="text-justify">
+		Given a video of a person in action, we can easily guess the 3D future motion of the person. In this
+		work, we present perhaps the first approach for predicting a future 3D mesh model sequence of a person
+		from past video input. We do this for periodic motions such as walking and also actions like bowling and
+		squatting seen in sports or workout videos. While there has been a surge of future prediction problems
+		in computer vision, most approaches focus on predicting 3D future from 3D past or 2D future from 2D past
+		inputs. In this work we solve the problem of predicting 3D future motion from past image sequences,
+		which has a plethora of practical applications in robotics such as drones and self-driving cars that can
+		operate safely around people from visual inputs. While autoregressive models are one of the most
+		successful approaches in language modeling tasks, it requires the input and output to be in the same
+		domain, which is not the case in this practical scenario of video to 3D motion prediction. We solve this
+		problem by learning an intermediate latent space in which autoregressive prediction is possible. Our
+		approach can be trained on video sequences obtained in-the-wild without 3D ground truth labels.
+	</p>
+	<br>
+	<hr>
+	<br>
+	<h2>Paper</h2>
+	<br>
+
+	<table>
+		<tr>
+			<td style="vertical-align: top; width: 35%">
+				<a href="https://arxiv.org/abs/1812.01601">
+					<img width="90%" src="assets/img/paper_preview.jpg"/>
+				</a>
+			</td>
+			<td style="vertical-align: top; width: 60%; white-space:nowrap;" class="text-left">
+				<h4 class="text-left">Predicting 3D Human Dynamics from Video</h4>
+				<h5 class="text-left">
+					Jason&nbsp;Zhang, Panna&nbsp;Felsen,&nbsp;Angjoo&nbsp;Kanazawa, and Jitendra&nbsp;Malik
+				</h5>
+				<pre ><code>@InProceedings{zhang2019phd,
+    title={Predicting 3D Human Dynamics from Video},
+    author={Zhang,&nbsp;Jason Y. and Felsen,&nbsp;Panna and Kanazawa,&nbsp;Angjoo and Malik,&nbsp;Jitendra},
+    booktitle={International Conference on Computer Vision (ICCV)},
+    year={2019}
+}</code></pre>
+			</td>
+		</tr>
+	</table>
+
+	<br>
+	<hr>
+	<br>
+	<h2>Video</h2>
+	<br>
+	<iframe width="720" height="405" src="https://www.youtube.com/embed/aBKZ7HMF1SM" frameborder="0"
+			allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+	</iframe>
+
+	<br>
+	<hr>
+	<br>
+
+	<h2>Code</h2>
+
+	<img class="round" width="90%" src="assets/img/overview.jpg"/>
+	<h3 class="text-center"><a href="">[Github] (Coming Soon)</a></h3>
+
+	<br>
+	<hr>
+	<br>
+
+	<h2>Acknowledgements</h2>
+	<br>
+	<p>
+		We would like to thank Ke Li for insightful discussion and Allan Jabri and Ashish Kumar for valuable feedback.
+		We thank Alyosha Efros for the Statue idea. This work was supported in part by Intel/NSF VEC award IIS-1539099
+		and BAIR sponsors.
+	</p>
+	<br>
+	<br>
+
+</body>
+
+</html>

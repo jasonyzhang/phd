@@ -1,0 +1,48 @@
+body {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1100px;
+    text-align: center;
+}
+
+h1 {
+    font-weight: 300;
+    text-align: center;
+}
+
+pre {
+    overflow-x: auto;
+    text-align: left;
+    border: 1px solid grey;
+    border-radius:3px;
+    background:#eeeeee;
+    padding: 5px 5px 5px 10px;
+}
+
+pre code {
+    text-align: left;
+    word-wrap: normal;
+    white-space: pre-wrap;
+    font-size: 12px;
+}
+
+hr {
+    border-top: 2px solid dimgrey;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+
+a:link, a:visited {
+    color: #1367a7;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #208799;
+}
