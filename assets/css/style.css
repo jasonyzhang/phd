@@ -20,6 +20,7 @@ pre {
     border-radius:3px;
     background:#eeeeee;
     padding: 5px 5px 5px 10px;
+    line-height: 1.2;
 }
 
 pre code {
