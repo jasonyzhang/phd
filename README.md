@@ -26,8 +26,11 @@ fall under their respective licenses.
 virtualenv venv_phd -p python3
 source venv_phd/bin/activate
 pip install -U pip
-pip install numpy torch==1.3.0 tensorflow-gpu==1.15.0
+pip install numpy tensorflow-gpu==1.15.0
+pip install torch==1.3.0  # Make sure the wheel corresponds to your CUDA Version
 pip install -r requirements.txt
+cd src/external
+sh install_nmr.sh
 ```
 
 Download the model weights from [this Google Drive link](https://drive.google.com/file/d/1_sipXE-FNs_08YCPFxFlLauHJcqzny7x/view?usp=sharing).
@@ -68,10 +71,23 @@ python demo.py --load_path models/phd.ckpt-199269 --vid_id 0104 --ar_length 25 -
 For reference, [this](https://jasonyzhang.com/phd/assets/vid/0104.zip) should be your output.
 
 
-### Any Video
+### Running on Any Video
 
-Coming soon
+To run on a generic video, you will need a tracklet around the person. We extract the tracklet using PoseFlow.
 
+Follow directions to download AlphaPose and Model Weights from https://github.com/MVIG-SJTU/AlphaPose.
+
+Roughly, that should entail:
+1. Clone the repo to `src/external`
+2. Build AlphaPose using `python setup.py build develop --user`
+3. Download pre-trained weights to the specified directories. Use the ResNet50 Fast Pose from the Model Zoo.
+
+Steps 1. and 2. can be done by running `sh install_alphapose.sh` in `src/external`
+
+Now you should be able to run the model on any video, eg:
+```
+python demo.py --load_path models/phd.ckpt-199269 --vid_path data/0502.mp4 --start_frame 0 --ar_length 25
+```
 
 ## Training Code
 

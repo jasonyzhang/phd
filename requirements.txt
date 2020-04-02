@@ -5,12 +5,17 @@ chumpy==0.68
 deepdish==0.3.6
 ipdb==0.12
 matplotlib==3.0.3
-neural_renderer_pytorch==1.1.3
-numpy==1.16.3
+# neural_renderer_pytorch==1.1.3  # Works better if you build from source
+numpy
 opencv-python==3.4.5.20
+pillow<7
 scikit-image==0.15.0
 scipy==1.2.1
 # tensorflow-gpu==1.14
 torch==1.3.0
 torchvision==0.4.1
 tqdm==4.19.9
+
+# For AlphaPose/Poseflow
+cython
+munkres==1.0.12

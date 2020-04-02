@@ -30,12 +30,18 @@ def get_output_path_name(config, vid_id, suffix='', inds=()):
     if inds:
         suffix += '_' + '-'.join(map(str, inds))
     suffix += '_fps{}'.format(config.fps)
+    if config.dataset:
+        output_name = '{dataset}-{vid}_{suf}.mp4'.format(
+            dataset=config.dataset,
+            vid=vid_id,
+            suf=suffix,
+        )
+    else:
+        output_name = '{vid}_{suf}.mp4'.format(
+            vid=os.path.basename(config.vid_path).split('.')[0],
+            suf=suffix,
+        )
 
-    output_name = '{dataset}-{vid}_{suf}.mp4'.format(
-        dataset=config.dataset,
-        vid=vid_id,
-        suf=suffix,
-    )
     return output_name
 
 

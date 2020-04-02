@@ -1,1 +1,12 @@
 .idea
+__pycache__
+
+data
+demo_output
+models
+src/external/AlphaPose
+src/external/neural_renderer
+venv_*
+
+*.pyc
+*.swp

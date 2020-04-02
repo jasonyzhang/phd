@@ -5,10 +5,12 @@ Runs PHD on Penn Action video.
 from glob import glob
 import os
 import os.path as osp
+import warnings
 
 from absl import flags
 import numpy as np
 from scipy.io import loadmat
+import tensorflow as tf
 
 from src.config import get_config
 from src.evaluation.run_video import (
@@ -17,18 +19,26 @@ from src.evaluation.run_video import (
     run_predictions,
 )
 from src.evaluation.tester_pred import TesterPred
+from src.extract_tracks import (
+    compute_tracks,
+    get_labels_poseflow,
+)
 from src.renderer import VisRenderer
 from src.util.smooth_bbox import get_smooth_bbox_params
 
-flags.DEFINE_string('dataset', 'penn_action', 'Dataset to use.')
+flags.DEFINE_string('dataset', '',
+                    'Dataset to use. Leave blank if using PoseFlow to extract'
+                    ' tracks. Otherwise can set to "penn_action".')
 flags.DEFINE_string('vid_id', '0001', 'Video id number if using Penn Action.')
+flags.DEFINE_string('vid_path', 'data/0504.mp4',
+                    'Path to filename if using PoseFlow for tracks')
 
 flags.DEFINE_integer('ar_length', 25, 'Number of steps into future to predict.')
 flags.DEFINE_integer('start_frame', 0, 'First frame of conditioning.')
 flags.DEFINE_integer('skip_rate', None,
                      'If set, will be used for choosing subsequences.')
 flags.DEFINE_integer('fps', 5, 'Frames per second in rendered video.')
-flags.DEFINE_integer('degrees', '60', 'Frames per second in rendered video.')
+flags.DEFINE_integer('degrees', '60', 'Angle for rotated viewpoint.')
 flags.DEFINE_string('mesh_color', 'blue', 'Color of mesh.')
 
 flags.DEFINE_string('out_dir', 'demo_output', 'Where to save final PHD videos.')
@@ -39,6 +49,7 @@ NUM_CONDITION = 15
 
 # Hides some TF warnings.
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
 def load_penn_video(penn_dir, vid_id):
@@ -50,16 +61,29 @@ def load_penn_video(penn_dir, vid_id):
     return im_paths, kps
 
 
+def load_poseflow_video(vid_path, out_dir):
+    track_json, im_dir = compute_tracks(vid_path=vid_path, out_dir=out_dir)
+    im_paths = sorted(glob(osp.join(im_dir, '*.png')))
+    kps = get_labels_poseflow(
+        json_path=track_json,
+        num_frames=len(im_paths),
+        min_kp_count=NUM_CONDITION,
+    )
+    return im_paths, kps
+
+
 def main(model):
-    # Adding your own video is very easy as long as you have keypoints. Order
-    # doesn't matter because they're just used to compute the bounding box.
-    # KP format should be N x K x 3.
-    if config.dataset == 'penn_action':
+    # Keypoints are only used to compute the bounding box around human tracks.
+    # They are not fed into the model. Keypoint format is [x, y, vis]. Keypoint
+    # order doesn't matter.
+    if config.dataset == '':
+        im_paths, kps = load_poseflow_video(config.vid_path, config.out_dir)
+        vis_thresh = 0.1
+    elif config.dataset == 'penn_action':
         im_paths, kps = load_penn_video(config.penn_dir, config.vid_id)
         vis_thresh = 0.5
     else:
         raise Exception('Dataset {} not recognized'.format(config.dataset))
-    assert len(im_paths) == len(kps)
     bbox_params_smooth, s, e = get_smooth_bbox_params(kps, vis_thresh)
     images = []
     min_f = max(s, 0)
@@ -75,7 +99,8 @@ def main(model):
         T=(NUM_CONDITION + config.ar_length),
         suffix='AR{}'.format(config.ar_length),
     )
-
+    if not osp.exists(config.out_dir):
+        os.mkdir(config.out_dir)
     renderer = VisRenderer(img_size=224)
     for i in range(0, len(all_images), config.batch_size):
         run_predictions(
